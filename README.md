@@ -166,7 +166,7 @@ wget -c -N -O traefik https://github.com/traefik/traefik/releases/download/v1.7.
 3. Download ReportPortal Treafik configuration file
 
 ```bash
-curl -LO https://raw.githubusercontent.com/reportportal/shell-installation/master/reportportal/traefik.toml
+curl -LO https://raw.githubusercontent.com/reportportal/linux-installation/master/data/traefik.toml
 ```
 
 4. Start Traefik
