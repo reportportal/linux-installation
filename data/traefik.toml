@@ -1,0 +1,73 @@
+logLevel = "DEBUG"
+
+defaultEntryPoints = ["http"]
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":8080"
+
+  [entryPoints.traefik]
+    address = ":8081"
+
+[api]
+  dashboard = true
+  entryPoint = "traefik"
+
+[file]
+
+[backends]
+
+  [backends.api]
+
+    [backends.api.servers]
+      [backends.api.servers.api-server]
+        url = "http://localhost:8585"
+
+  [backends.index]
+
+    [backends.index.servers]
+      [backends.index.servers.index-server]
+        url = "http://localhost:9000"
+
+  [backends.ui]
+
+    [backends.ui.servers]
+      [backends.ui.servers.ui-server]
+        url = "http://localhost:3000"
+
+  [backends.uat]
+
+    [backends.uat.servers]
+      [backends.uat.servers.uat-server]
+        url = "http://localhost:9999"
+
+
+[frontends]
+
+  [frontends.api]
+    entryPoints = ["http"]
+    backend = "api"
+    # passHostHeader = true
+    [frontends.api.routes.api-route]
+    rule = "PathPrefixStrip:/api"
+
+  [frontends.index]
+    entryPoints = ["http"]
+    backend = "index"
+    # passHostHeader = true
+    [frontends.index.routes.index-route]
+    rule = "PathPrefix:/"
+
+  [frontends.ui]
+    entryPoints = ["http"]
+    backend = "ui"
+    # passHostHeader = true
+    [frontends.ui.routes.ui-route]
+    rule = "PathPrefixStrip:/ui/"
+
+  [frontends.uat]
+    entryPoints = ["http"]
+    backend = "uat"
+    # passHostHeader = true
+    [frontends.uat.routes.uat-route]
+    rule = "PathPrefixStrip:/uat"
