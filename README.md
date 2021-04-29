@@ -46,7 +46,7 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 ## Required Services
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12.6-blue)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3.8.14-blue)
-![ElasticSearch](https://img.shields.io/badge/ElasticSearch-7.12.0-blue)
+![ElasticSearch](https://img.shields.io/badge/ElasticSearch-7.10.0-blue)
 ![Traefik](https://img.shields.io/badge/Traefik-1.7.29-blue)
 
 ### PostgreSQL
@@ -125,7 +125,7 @@ To check RabbitMQ look forward <you_IP>:15672
 
 ### ElasticSearch
 
-How to install RabbitMQ 7.12.0 on [Ubuntu](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html) LTS 18.04, 20.04 / [Red Hat family](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html) 6, 7, 8 (RHEL, CentOS, etc). Also you need to install `openjdk-11-jre-headless` and `openjdk-8-jdk`
+How to install ElasticSearch 7.10.0 on [Ubuntu](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/deb.html) LTS 18.04, 20.04 / [Red Hat family](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html) 6, 7, 8 (RHEL, CentOS, etc). Also you need to install `openjdk-11-jre-headless` and `openjdk-8-jdk`
 
 To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. Output will be:
 
@@ -135,7 +135,7 @@ To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. Output will be:
     "cluster_name" : "elasticsearch",
     "cluster_uuid" : "98xfWPnKQNSI1ql7q7y57w",
     "version" : {
-        "number" : "7.12.0",
+        "number" : "7.10.0",
         "build_flavor" : "default",
         "build_type" : "deb",
         "build_hash" : "78722783c38caa25a70982b5b042074cde5d3b3a",
