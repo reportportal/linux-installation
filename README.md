@@ -14,15 +14,15 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 
 ## Supported OS
 
-![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04-orange)
-![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04-orange)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04-orange?style=flat-square)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04-orange?style=flat-square)
 
-![RHEL](https://img.shields.io/badge/RHEL-6.10-red)
-![RHEL](https://img.shields.io/badge/RHEL-7.9-red)
-![RHEL](https://img.shields.io/badge/RHEL-8.x-red)
-![CentOS](https://img.shields.io/badge/CentOS-6.10-yellow)
-![CentOS](https://img.shields.io/badge/CentOS-7.9-yellow)
-![CentOS](https://img.shields.io/badge/CentOS-8.x-yellow)
+![RHEL](https://img.shields.io/badge/RHEL-6.10-red?style=flat-square)
+![RHEL](https://img.shields.io/badge/RHEL-7.9-red?style=flat-square)
+![RHEL](https://img.shields.io/badge/RHEL-8.x-red?style=flat-square)
+![CentOS](https://img.shields.io/badge/CentOS-6.10-yellow?style=flat-square)
+![CentOS](https://img.shields.io/badge/CentOS-7.9-yellow?style=flat-square)
+![CentOS](https://img.shields.io/badge/CentOS-8.x-yellow?style=flat-square)
 
 ## Table of contents
 
@@ -35,6 +35,7 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
     * [Traefik](#Traefik)
 * [ReportPortal Services](#ReportPortal-Services)
     * [Preparation](#Preparation)
+    * [Repositories](#Repositories)
     * [Analyzer](#Analyzer)
     * [Migration](#Migration)
     * [Index](#Index)
@@ -44,10 +45,10 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 
 
 ## Required Services
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12.6-blue)
-![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3.8.14-blue)
-![ElasticSearch](https://img.shields.io/badge/ElasticSearch-7.10.1-blue)
-![Traefik](https://img.shields.io/badge/Traefik-1.7.29-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12.6-blue?style=flat-square)
+![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3.8.14-blue?style=flat-square)
+![ElasticSearch](https://img.shields.io/badge/ElasticSearch-7.10.1-blue?style=flat-square)
+![Traefik](https://img.shields.io/badge/Traefik-1.7.29-blue?style=flat-square)
 
 ### PostgreSQL
 
@@ -177,13 +178,19 @@ sudo ./traefik --configFile=traefik.toml 2>&1 &
 
 ## ReportPortal Services
 
-![Analyzer](https://img.shields.io/badge/Analyzer-5.3.5-9cf)
-![UI](https://img.shields.io/badge/UI-5.3.5-9cf)
-![API](https://img.shields.io/badge/API-5.3.5-9cf)
-![Migration](https://img.shields.io/badge/Migration-5.3.5-9cf)
-![Index](https://img.shields.io/badge/Index-5.0.10-9cf)
-![UAT](https://img.shields.io/badge/UAT-5.3.5-9cf)
+![Analyzer](https://img.shields.io/badge/Analyzer-5.3.5-9cf?style=flat-square)
+![UI](https://img.shields.io/badge/UI-5.3.5-9cf?style=flat-square)
+![API](https://img.shields.io/badge/API-5.3.5-9cf?style=flat-square)
+![Migration](https://img.shields.io/badge/Migration-5.3.5-9cf?style=flat-square)
+![Index](https://img.shields.io/badge/Index-5.0.10-9cf?style=flat-square)
+![UAT](https://img.shields.io/badge/UAT-5.3.5-9cf?style=flat-square)
 
+### Repositories
+
+[![Index](https://img.shields.io/github/downloads/reportportal/service-index/total?label=Index%40downloads&style=flat-square)](https://github.com/reportportal/service-index/releases/) 
+[![UI](https://img.shields.io/github/downloads/reportportal/service-ui/total?label=UI%40downloads&style=flat-square)](https://github.com/reportportal/service-ui/releases/)
+[![API](https://img.shields.io/maven-central/v/com.epam.reportportal/service-api?label=API%40maven-central&style=flat-square)](https://search.maven.org/artifact/com.epam.reportportal/service-api/5.3.5/jar)
+[![UAT](https://img.shields.io/maven-central/v/com.epam.reportportal/service-authorization?label=UAT%40maven-central&style=flat-square)](https://search.maven.org/artifact/com.epam.reportportal/service-authorization/5.3.5/jar)
 
 ### Preparation
 
@@ -203,8 +210,8 @@ sudo apt install zip software-properties-common gcc -y
 Add environment variables:
 
 ```bash
-REPO_URL_BASE="https://dl.bintray.com/epam/reportportal"
-REPO_URL_JAR="$REPO_URL_BASE/com/epam/reportportal"
+MAVEN_REPO="https://repo1.maven.org/maven2/com/epam/reportportal"
+
 API_VERSION="5.3.5"
 UAT_VERSION="5.3.5"
 MIGRATIONS_VERSION="5.3.5"
@@ -319,7 +326,7 @@ PGPASSWORD=$RP_POSTGRES_PASSWORD psql -U $RP_POSTGRES_USER -d reportportal -a \
 
 ```bash
 cd /opt/reportportal/ && \
-wget -c -N -O service-index ${REPO_URL_BASE}/${SERVICE_INDEX_VERSION}/service-index_linux_amd64
+wget -c -N -O service-index https://github.com/reportportal/service-index/releases/download/$SERVICE_INDEX_VERSION/service-index_linux_amd64
 ```
 
 2. Run service
@@ -335,7 +342,7 @@ sudo RP_SERVER_PORT=9000 LB_URL=http://localhost:8081 ./service-index 2>&1 &
 
 ```bash
 cd /opt/reportportal/ && \
-wget -c -N -O service-api.jar ${REPO_URL_JAR}/service-api/${API_VERSION}/service-api-${API_VERSION}-exec.jar
+curl -L $MAVEN_REPO/service-api/$API_VERSION/service-api-$API_VERSION-exec.jar -o service-api.jar
 ```
 
 2. Run API service
@@ -350,7 +357,7 @@ sudo RP_AMQP_HOST=localhost RP_AMQP_APIUSER=$RP_RABBITMQ_USER RP_AMQP_APIPASS=$R
 
 ```bash
 cd /opt/reportportal/ && \
-wget -c -N -O service-uat.jar ${REPO_URL_JAR}/service-authorization/${UAT_VERSION}/service-authorization-${UAT_VERSION}-exec.jar
+curl -L $MAVEN_REPO/service-authorization/$UAT_VERSION/service-authorization-$UAT_VERSION-exec.jar -o service-uat.jar
 ```
 
 2. Run service
@@ -370,10 +377,11 @@ mkdir -p /opt/reportportal/ui && cd /opt/reportportal/
 2. Download UI service 
 
 ```bash
-wget -c -N -O service-ui ${REPO_URL_BASE}/${UI_VERSION}/service-ui_linux_amd64 && mv service-ui ui
-chmod -R +x ui/*
-wget -c -N -O ui.tar.gz ${REPO_URL_BASE}/${UI_VERSION}/ui.tar.gz
-mkdir public
+curl -L https://github.com/reportportal/service-ui/releases/download/$UI_VERSION/service-ui_linux_amd64 -o service-ui && \
+mv service-ui ui/ && \
+chmod -R +x ui/* && \
+curl -LO https://github.com/reportportal/service-ui/releases/download/5.3.5/ui.tar.gz && \
+mkdir public && \
 tar -zxvf ui.tar.gz -C public && rm -f ui.tar.gz
 ```
 
