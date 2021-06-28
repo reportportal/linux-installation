@@ -391,7 +391,7 @@ tar -zxvf ui.tar.gz -C public && rm -f ui.tar.gz
 cd ui/ && RP_STATICS_PATH=../public RP_SERVER_PORT=3000 ./service-ui 2>&1 &
 ```
 
-Chek availability of ReportPortal
+Check availability of ReportPortal
 
 ![RabbitMQ](img/reportportal.gif)
 
