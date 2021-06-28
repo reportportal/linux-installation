@@ -196,7 +196,7 @@ sudo ./traefik --configFile=traefik.toml 2>&1 &
 
 How to install Python 3.7, Python 3.7 DEV and Python 3.7 VENV on [Ubuntu](https://www.python.org/downloads/) LTS 18.04, 20.04 / [Red Hat family](https://www.python.org/downloads/) 6, 7, 8 (RHEL, CentOS, etc).
 
-For example for Ubunto 18.04 OS:
+For example for Ubuntu 18.04 OS:
 ```bash
 sudo apt install python3.7 python3.7-dev python3.7-venv -y
 ```
