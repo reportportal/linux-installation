@@ -158,7 +158,7 @@ To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. Output will be:
 sudo mkdir /opt/traefik && sudo chown $USER:$USER /opt/traefik && cd /opt/traefik
 ```
 
-2. Download Traefik 1.7.29 release from offical git [repository](https://github.com/traefik/traefik/releases) and make binary exetutable
+2. Download Traefik 1.7.29 release from official git [repository](https://github.com/traefik/traefik/releases) and make binary exetutable
 
 ```bash
 wget -c -N -O traefik https://github.com/traefik/traefik/releases/download/v1.7.29/traefik_linux-amd64 && chmod +x traefik
@@ -290,34 +290,10 @@ wget -c -N -O migrations.zip https://github.com/reportportal/migrations/archive/
 
 2. Run service
 
+You need to execute all `up` scripts to prepare your database for ReportPortal services:
+
 ```bash
-PGPASSWORD=$RP_POSTGRES_PASSWORD psql -U $RP_POSTGRES_USER -d reportportal -a \ 
-  -f migrations/migrations/0_extensions.up.sql \
-  -f migrations/migrations/1_initialize_schema.up.sql \
-  -f migrations/migrations/2_initialize_quartz_schema.up.sql \
-  -f migrations/migrations/3_default_data.up.sql \
-  -f migrations/migrations/4_size_limitations.up.sql \
-  -f migrations/migrations/5_test_case_id_type.up.sql \
-  -f migrations/migrations/6_retries_handling.up.sql \
-  -f migrations/migrations/7_auth_integration.up.sql \
-  -f migrations/migrations/8_sender_case_enabled_field.up.sql \
-  -f migrations/migrations/9_analyzer_params.up.sql \
-  -f migrations/migrations/10_attachment_size.up.sql \ 
-  -f migrations/migrations/11_password_encoding.up.sql \ 
-  -f migrations/migrations/12_remove_ticket_duplicates.up.sql \ 
-  -f migrations/migrations/13_add_allocated_storage_per_project.up.sql \ 
-  -f migrations/migrations/14_test_case_id_size_increase.up.sql \ 
-  -f migrations/migrations/15_statistics_decreasing.up.sql \ 
-  -f migrations/migrations/16_remove_unused_indexes.up.sql \ 
-  -f migrations/migrations/17_status_enum_extension.up.sql \ 
-  -f migrations/migrations/18_job_attributes.up.sql \ 
-  -f migrations/migrations/19_retries_handling_extension.up.sql \ 
-  -f migrations/migrations/20_deep_merge_statistics_handling.up.sql \ 
-  -f migrations/migrations/21_deep_merge_retries_fix.up.sql \ 
-  -f migrations/migrations/22_deep_merge_nested_steps_fix.up.sql \ 
-  -f migrations/migrations/23_rerun_item_statistics_fix.up.sql \ 
-  -f migrations/migrations/24_widget_views_cleanup.up.sql \ 
-  -f migrations/migrations/25_deep_merge_nested_steps_path_fix.up.sql 2>&1 &
+PGPASSWORD=$RP_POSTGRES_PASSWORD psql -U $RP_POSTGRES_USER -d reportportal -a -f migrations/migrations/0_extensions.up.sql -f migrations/migrations/1_initialize_schema.up.sql -f migrations/migrations/2_initialize_quartz_schema.up.sql -f migrations/migrations/3_default_data.up.sql -f migrations/migrations/4_size_limitations.up.sql -f migrations/migrations/5_test_case_id_type.up.sql -f migrations/migrations/6_retries_handling.up.sql -f migrations/migrations/7_auth_integration.up.sql -f migrations/migrations/8_sender_case_enabled_field.up.sql -f migrations/migrations/9_analyzer_params.up.sql -f migrations/migrations/10_attachment_size.up.sql -f migrations/migrations/11_password_encoding.up.sql -f migrations/migrations/12_remove_ticket_duplicates.up.sql -f migrations/migrations/13_add_allocated_storage_per_project.up.sql -f migrations/migrations/14_test_case_id_size_increase.up.sql -f migrations/migrations/15_statistics_decreasing.up.sql -f migrations/migrations/16_remove_unused_indexes.up.sql -f migrations/migrations/17_status_enum_extension.up.sql -f migrations/migrations/18_job_attributes.up.sql -f migrations/migrations/19_retries_handling_extension.up.sql -f migrations/migrations/20_deep_merge_statistics_handling.up.sql -f migrations/migrations/21_deep_merge_retries_fix.up.sql -f migrations/migrations/22_deep_merge_nested_steps_fix.up.sql -f migrations/migrations/23_rerun_item_statistics_fix.up.sql -f migrations/migrations/24_widget_views_cleanup.up.sql -f migrations/migrations/25_deep_merge_nested_steps_path_fix.up.sql 2>&1 &
 ```
 
 ### Index
