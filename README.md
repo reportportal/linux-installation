@@ -279,6 +279,24 @@ Set in ***app.py*** RabbitMQ URL `amqp://user:password@localhost:5672`, binary s
 
 ```
 
+Activate the virtual environment
+
+```bash
+source /vrpanalyzer/bin/activate
+```
+
+Install stopwords package from the nltk library
+
+```bash
+sudo /vrpanalyzer/bin/python3.7 -m nltk.downloader -d /usr/share/nltk_data stopwords
+```
+
+Start Analyzer
+
+```bash
+/vrpanalyzer/bin/uwsgi --ini app.ini > /dev/null 2>&1 &
+```
+
 ### Migration
 
 1. Download service
