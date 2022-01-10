@@ -270,7 +270,7 @@ Set in ***app.ini*** your virtual environment specified above:
 virtualenv = vrpanalyzer
 ```
 
-Set in ***app.py*** RabbitMQ URL `amqp://user:password@localhost:5672`, binary store type `filesystem`, and directory name (for expample `rpstorage`)
+Set in ***app.py*** RabbitMQ URL `amqp://user:password@localhost:5672`, binary store type `filesystem`, and directory name (for example `rpstorage`)
 
 ```bash
 # "amqpUrl":           os.getenv("AMQP_URL", "amqp://user:password@localhost:5672").strip("/").strip("\\"),
