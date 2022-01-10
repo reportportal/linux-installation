@@ -54,7 +54,7 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 
 How to install PostgreSQL 12.6 on [Ubuntu](https://www.postgresql.org/download/linux/ubuntu/) LTS 18.04, 20.04 / [Red Hat family](https://www.postgresql.org/download/linux/redhat/) 6, 7, 8 (RHEL, CentOS, etc) 
 
-1. After successful installation, you need to prepare the database to ReportPortal services `sudo su - postgres -c "psql"`
+1. After successful installation, you need to prepare the database for ReportPortal services `sudo su - postgres -c "psql"`
 
 ```SQL
 CREATE DATABASE reportportal; 
@@ -90,7 +90,7 @@ psql -U rpuser -d reportportal -c "CREATE EXTENSION pgcrypto;"
 
 How to install RabbitMQ 3.8.14 on [Ubuntu](https://www.rabbitmq.com/install-debian.html#apt) LTS 18.04, 20.04 / [Red Hat family](https://www.rabbitmq.com/install-rpm.html) 6, 7, 8 (RHEL, CentOS, etc) 
 
-1. After installation enable RabbitMQ web management console:
+1. After installation, enable RabbitMQ web management console:
 
 ```bash
 sudo rabbitmq-plugins enable rabbitmq_management
@@ -102,7 +102,7 @@ sudo rabbitmq-plugins enable rabbitmq_management
 sudo chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
 ```
 
-3. Create an admin user for RabbitMQ web management console
+3. Create an admin user for the RabbitMQ web management console
 
 ```bash
 sudo rabbitmqctl add_user admin <strong_password>
@@ -110,7 +110,7 @@ sudo rabbitmqctl set_user_tags admin administrator
 sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 ```
 
-4. Configure user, permissions and vhost for ReportPortal. Run the following commands in order to configure your RabbitMQ work with ReportPortal. Please determine the name and the password for your ReportPortal Rabbitmq user in advance
+4. Configure user, permissions, and vhost for ReportPortal. Run the following commands in order to configure your RabbitMQ work with ReportPortal. Please determine the name and the password for your ReportPortal Rabbitmq user in advance
 
 ```bash
 sudo rabbitmqctl add_user <your_rpmquser> <your_rpmquser_password>
@@ -128,7 +128,7 @@ To check RabbitMQ look forward <you_IP>:15672
 
 How to install ElasticSearch 7.10.1 on [Ubuntu](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/deb.html) LTS 18.04, 20.04 / [Red Hat family](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html) 6, 7, 8 (RHEL, CentOS, etc). Also you need to install `openjdk-11-jre-headless` and `openjdk-8-jdk`
 
-To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. Output will be:
+To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. The output will be:
 
 ```json
 {
@@ -152,19 +152,19 @@ To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. Output will be:
 
 ### Traefik
 
-1. Create work directory
+1. Create a working directory
 
 ```bash
 sudo mkdir /opt/traefik && sudo chown $USER:$USER /opt/traefik && cd /opt/traefik
 ```
 
-2. Download Traefik 1.7.29 release from official git [repository](https://github.com/traefik/traefik/releases) and make binary exetutable
+2. Download Traefik 1.7.29 release from official git [repository](https://github.com/traefik/traefik/releases) and make binary executable
 
 ```bash
 wget -c -N -O traefik https://github.com/traefik/traefik/releases/download/v1.7.29/traefik_linux-amd64 && chmod +x traefik
 ```
 
-3. Download ReportPortal Treafik configuration file
+3. Download ReportPortal Traefik configuration file
 
 ```bash
 curl -LO https://raw.githubusercontent.com/reportportal/linux-installation/master/data/traefik.toml
@@ -229,7 +229,7 @@ RP_RABBITMQ_PASSWORD=<your_rpmquser_password>
 
 ```
 
-Create work directory 
+Create a working directory 
 
 ```bash
 sudo mkdir /opt/reportportal/ && \
@@ -262,7 +262,7 @@ source /vrpanalyzer/bin/activate
 sudo /vrpanalyzer/bin/python3 -m nltk.downloader -d /usr/share/nltk_data stopwords
 ```
 
-3. Start the uwsgi server, you can change properties, such as the workers quantity for running the analyzer in the several processes. 
+3. Start the uwsgi server, you can change properties, such as the worker's quantity for running the analyzer in several processes. 
 
 Set in ***app.ini*** your virtual environment specified above:
 
@@ -388,4 +388,3 @@ cd ui/ && RP_STATICS_PATH=../public RP_SERVER_PORT=3000 ./service-ui 2>&1 &
 Check availability of ReportPortal
 
 ![RabbitMQ](img/reportportal.gif)
-
