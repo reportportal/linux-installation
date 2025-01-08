@@ -1,0 +1,16 @@
+entryPoints:
+  web:
+    address: ":8080"
+  traefik:
+    address: ":8081"
+
+api:
+  dashboard: true
+  # 'insecure' means the dashboard doesn't require TLS. 
+  # For production, you should set up proper access control or TLS.
+  insecure: true
+
+providers:
+  # We tell Traefik to load dynamic config from another file
+  file:
+    filename: /etc/traefik/dynamic_conf.yml

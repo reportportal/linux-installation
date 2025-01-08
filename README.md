@@ -1,31 +1,5 @@
-# ReportPortal Linux installation
-[![Join Slack chat!](https://reportportal-slack-auto.herokuapp.com/badge.svg)](https://reportportal-slack-auto.herokuapp.com)
-[![stackoverflow](https://img.shields.io/badge/reportportal-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/reportportal)
-[![GitHub contributors](https://img.shields.io/badge/contributors-102-blue.svg)](https://reportportal.io/community)
-[![Docker Pulls](https://img.shields.io/docker/pulls/reportportal/service-api.svg?maxAge=25920)](https://hub.docker.com/u/reportportal/)
-[![License](https://img.shields.io/badge/license-Apache-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Build with Love](https://img.shields.io/badge/build%20with-❤%EF%B8%8F%E2%80%8D-lightgrey.svg)](http://reportportal.io?style=flat)
-
-## Description
-
-[ReportPortal.io](https://reportportal.io) is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
-
-ReportPortal is a great addition to the Continuous Integration and Continuous Testing process.
-
-## Supported OS
-
-![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04-orange?style=flat-square)
-![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04-orange?style=flat-square)
-
-![RHEL](https://img.shields.io/badge/RHEL-6.10-red?style=flat-square)
-![RHEL](https://img.shields.io/badge/RHEL-7.9-red?style=flat-square)
-![RHEL](https://img.shields.io/badge/RHEL-8.x-red?style=flat-square)
-![CentOS](https://img.shields.io/badge/CentOS-6.10-yellow?style=flat-square)
-![CentOS](https://img.shields.io/badge/CentOS-7.9-yellow?style=flat-square)
-![CentOS](https://img.shields.io/badge/CentOS-8.x-yellow?style=flat-square)
-
 ## Table of contents
-
+* [Report Portal Installation ](#ReportPortal)
 * [Description](#Descriprion)
 * [Supported OS](#Supported-OS)
 * [Required Services](#Required-Services)
@@ -44,6 +18,29 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
     * [UI](#UI)
 
 
+# ReportPortal Linux installation
+[![Join Slack chat!](https://reportportal-slack-auto.herokuapp.com/badge.svg)](https://reportportal-slack-auto.herokuapp.com)
+[![stackoverflow](https://img.shields.io/badge/reportportal-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/reportportal)
+[![GitHub contributors](https://img.shields.io/badge/contributors-102-blue.svg)](https://reportportal.io/community)
+[![Docker Pulls](https://img.shields.io/docker/pulls/reportportal/service-api.svg?maxAge=25920)](https://hub.docker.com/u/reportportal/)
+[![License](https://img.shields.io/badge/license-Apache-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Build with Love](https://img.shields.io/badge/build%20with-❤%EF%B8%8F%E2%80%8D-lightgrey.svg)](http://reportportal.io?style=flat)
+
+## Description
+
+[ReportPortal.io](https://reportportal.io) is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
+
+ReportPortal is a great addition to the Continuous Integration and Continuous Testing process.
+
+## Supported OS
+
+![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04-orange?style=flat-square)
+
+![RHEL](https://img.shields.io/badge/RHEL-7.9-red?style=flat-square)
+![RHEL](https://img.shields.io/badge/RHEL-8.x-red?style=flat-square)
+![RHEL](https://img.shields.io/badge/RHEL-9.x-red?style=flat-square)
+
+
 ## Required Services
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12.6-blue?style=flat-square)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3.8.14-blue?style=flat-square)
@@ -52,7 +49,7 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 
 ### PostgreSQL
 
-How to install PostgreSQL 12.6 on [Ubuntu](https://www.postgresql.org/download/linux/ubuntu/) LTS 18.04, 20.04 / [Red Hat family](https://www.postgresql.org/download/linux/redhat/) 6, 7, 8 (RHEL, CentOS, etc) 
+How to install PostgreSQL 17.2 on [Ubuntu](https://www.postgresql.org/download/linux/ubuntu/) LTS 20.04, 22.04, LTS 24.04 / [Red Hat family](https://www.postgresql.org/download/linux/redhat/) (RHEL, AlmaLinux, etc).
 
 1. After successful installation, you need to prepare the database for ReportPortal services `sudo su - postgres -c "psql"`
 
@@ -72,8 +69,8 @@ local   all             all                                     md5
 host    all             all             127.0.0.1/32            md5
 ```
 File location:
-* Ubuntu: `/etc/postgresql/12/main/pg_hba.conf`
-* RHEL: `/var/lib/pgsql/12/data/pg_hba.conf`
+* Ubuntu: `/etc/postgresql/17/main/pg_hba.conf`
+* RHEL: `/var/lib/pgsql/17/data/pg_hba.conf`
 
 3. After the changes above, restart the PostgreSQL service 
 ```bash
@@ -88,7 +85,7 @@ psql -U rpuser -d reportportal -c "CREATE EXTENSION pgcrypto;"
 
 ### RabbitMQ
 
-How to install RabbitMQ 3.8.14 on [Ubuntu](https://www.rabbitmq.com/install-debian.html#apt) LTS 18.04, 20.04 / [Red Hat family](https://www.rabbitmq.com/install-rpm.html) 6, 7, 8 (RHEL, CentOS, etc) 
+How to install RabbitMQ 4.0.5 on [Ubuntu](https://www.rabbitmq.com/docs/install-debian#apt-quick-start-cloudsmith) LTS 20.04, 22.04, 24.04 / [Red Hat family](https://www.rabbitmq.com/docs/install-rpm) (RHEL, AlmaLinux, etc.).
 
 1. After installation, enable RabbitMQ web management console:
 
@@ -124,11 +121,40 @@ To check RabbitMQ look forward <you_IP>:15672
 
 ![RabbitMQ](img/rabbitmq.gif)
 
-### ElasticSearch
+### Option 1 (Recomended): OpenSearch
 
-How to install ElasticSearch 7.10.1 on [Ubuntu](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/deb.html) LTS 18.04, 20.04 / [Red Hat family](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html) 6, 7, 8 (RHEL, CentOS, etc). Also you need to install `openjdk-11-jre-headless` and `openjdk-8-jdk`
+How to install OpenSearch 2.18.0 on [Ubuntu] (https://opensearch.org/docs/latest/install-and-configure/install-opensearch/debian/) LTS 20.04, 22.04, 24.04 / [Red Hat family](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/rpm/) (RHEL, AlmaLinux, etc).
+Check for Java requirements in your host according to compatibility (https://opensearch.org/docs/latest/install-and-configure/install-opensearch/index/)
+To check OpenSearch use the 
 
-To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. The output will be:
+curl -u '<your_opensearch_user>:<your_opensearch_password>' -XGET http://localhost:9200/_cluster/health?pretty (Use https if you're using SSL on your instance).
+```json
+{
+  "cluster_name" : "opensearch",
+  "status" : "yellow",
+  "timed_out" : false,
+  "number_of_nodes" : 1,
+  "number_of_data_nodes" : 1,
+  "discovered_master" : true,
+  "discovered_cluster_manager" : true,
+  "active_primary_shards" : 6,
+  "active_shards" : 6,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 2,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 75.0
+}
+```
+
+### Option 2: ElasticSearch
+
+How to install ElasticSearch 8.17 on [Ubuntu](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html) LTS 20.04, 22.04, 24.04 / [Red Hat family](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html) (RHEL, AlmaLinux, etc). Also you need to install `openjdk-11-jre-headless` and `openjdk-8-jdk`
+
+To check ElasticSearch use the `curl -X GET "localhost:9200/"`. The output will be:
 
 ```json
 {
@@ -158,22 +184,53 @@ To check ElsaticSearch use the `curl -X GET "localhost:9200/"`. The output will 
 sudo mkdir /opt/traefik && sudo chown $USER:$USER /opt/traefik && cd /opt/traefik
 ```
 
-2. Download Traefik 1.7.29 release from official git [repository](https://github.com/traefik/traefik/releases) and make binary executable
+2. Download Traefik 2.11.16 release from official git [repository](https://github.com/traefik/traefik/releases) and make binary executable
 
 ```bash
-wget -c -N -O traefik https://github.com/traefik/traefik/releases/download/v1.7.29/traefik_linux-amd64 && chmod +x traefik
+wget -c -N -O traefik https://github.com/traefik/traefik/releases/download/v2.11.16/traefik_v2.11.16_linux_amd64.tar.gz && chmod +x traefik
+tar -xvf traefik_v2.11.16_linux_amd64.tar.gz
 ```
 
 3. Download ReportPortal Traefik configuration file
-
 ```bash
-curl -LO https://raw.githubusercontent.com/reportportal/linux-installation/master/data/traefik.toml
+curl -LO https://raw.githubusercontent.com/reportportal/linux-installation/master/data/traefik.yml
+curl -LO https://raw.githubusercontent.com/reportportal/linux-installation/master/data/dynamic_conf.yml
+```
+
+```	
+sudo mkdir -p /etc/traefik
+	sudo chown $USER:$USER /etc/traefik
+	sudo nano /etc/traefik/traefik.yml
+		# Paste the traefik.yml content
+	sudo nano /etc/traefik/dynamic_conf.yml
+		# Paste the dynamic_conf.yml content
+
+	sudo tee /etc/systemd/system/traefik.service > /dev/null <<EOF
+	[Unit]
+	Description=Traefik Service
+	After=network.target
+
+	[Service]
+	Type=simple
+	ExecStart=/usr/local/bin/traefik --configFile=/etc/traefik/traefik.yml
+	Restart=always
+
+	[Install]
+	WantedBy=multi-user.target
+	EOF
 ```
 
 4. Start Traefik
 
 ```bash
-sudo ./traefik --configFile=traefik.toml 2>&1 &
+sudo systemctl daemon-reload
+sudo systemctl enable traefik
+sudo systemctl start traefik
+```
+5. Check Traefik status
+
+```
+sudo systemctl status traefik
 ```
 
 ## ReportPortal Services
