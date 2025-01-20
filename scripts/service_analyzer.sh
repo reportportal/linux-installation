@@ -3,7 +3,10 @@ set -e
 set -o pipefail
 export ES_HOSTS="http://localhost:9200"
 export AMQP_EXCHANGE_NAME="/"
-
+export LOGGING_LEVEL=info
+export AMQP_VIRTUAL_HOST="/"
+export AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER-rabbitmq}:${RABBITMQ_DEFAULT_PASS-rabbitmq}@rabbitmq:5672"
+export ANALYZER_BINARYSTORE_TYPE="filesystem"
 # ------------------------------------------------------------------------------
 # 1. Install Python 3.11.11 (Compiled From Source)
 # ------------------------------------------------------------------------------
@@ -82,7 +85,8 @@ echo "Analyzer is running with PID $ANALYZER_PID."
 # ------------------------------------------------------------------------------
 echo "=== Creating Python 3.11 virtual environment at /analyzer-train ==="
 python3.11 -m venv /analyzer-train
-
+export INSTANCE_TASK_TYPE="train"
+export UWSGI_WORKERS=1
 echo "=== Installing dependencies from requirements.txt in /analyzer-train ==="
 /analyzer-train/bin/pip install --no-cache-dir -r requirements.txt
 
