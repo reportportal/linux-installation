@@ -1,37 +1,28 @@
 http:
   routers:
-    ###########################################################
-    # Router for the API service
-    ###########################################################
     api-router:
-      rule: "PathPrefix(`/api`)"    # Requests starting with /api
+      rule: "PathPrefix(`/api`)"
       entryPoints: ["web"]
       service: "api-service"
       middlewares: ["strip-api"]
 
-    ###########################################################
-    # Router for the UI service
-    ###########################################################
     ui-router:
-      rule: "PathPrefix(`/ui`)"     # Requests starting with /ui
+      rule: "PathPrefix(`/ui`)"
       entryPoints: ["web"]
       service: "ui-service"
       middlewares: ["strip-ui"]
 
-    ###########################################################
-    # Router for the index service
-    ###########################################################
     index-router:
-      # This is effectively a catch-all for any path NOT starting with /api or /ui
-      # If you want to keep the old path arrangement (like /), use this rule
       rule: "PathPrefix(`/`)"
       entryPoints: ["web"]
       service: "index-service"
-      # no prefix stripping needed, unless you want to remove "/"
 
-  #############################################################
-  # Services - point to local ports on the EC2 (127.0.0.1)
-  #############################################################
+    uat-router:
+      rule: "PathPrefix(`/uat`)"
+      entryPoints: ["web"]
+      service: "uat-service"
+      middlewares: ["strip-uat"]
+
   services:
     api-service:
       loadBalancer:
@@ -48,9 +39,11 @@ http:
         servers:
           - url: "http://127.0.0.1:9000"
 
-  #############################################################
-  # Middlewares (strip the prefix before passing to the service)
-  #############################################################
+    uat-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:9999"
+
   middlewares:
     strip-api:
       stripPrefix:
@@ -61,3 +54,8 @@ http:
       stripPrefix:
         prefixes:
           - "/ui"
+
+    strip-uat:
+      stripPrefix:
+        prefixes:
+          - "/uat"
