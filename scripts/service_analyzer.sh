@@ -1,11 +1,24 @@
 #!/usr/bin/env bash
 set -e
 set -o pipefail
+
+# ------------------------------------------------------------------------------
+# RabbitMQ (AMQP) Configuration
+# ------------------------------------------------------------------------------
+export RP_AMQP_HOST="${RABBITMQ_HOST-localhost}"             # RabbitMQ server host
+export RP_AMQP_PORT="${RABBITMQ_PORT-5672}"                  # RabbitMQ main port
+export RP_AMQP_APIPORT="${RABBITMQ_API_PORT-15672}"          # RabbitMQ API port
+export RP_AMQP_USER="${RABBITMQ_DEFAULT_USER-rabbitmq}"      # RabbitMQ user
+export RP_AMQP_PASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"      # RabbitMQ password
+export RP_AMQP_APIUSER="${RABBITMQ_DEFAULT_USER-rabbitmq}"   # RabbitMQ API user
+export RP_AMQP_APIPASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"   # RabbitMQ API password
+export RP_AMQP_ANALYZER_VHOST="/"                            # RabbitMQ Analyzer virtual host
+
 export ES_HOSTS="http://localhost:9200"
-export AMQP_EXCHANGE_NAME="/"
+export AMQP_EXCHANGE_NAME="analyzer"
 export LOGGING_LEVEL=info
 export AMQP_VIRTUAL_HOST="/"
-export AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER-rabbitmq}:${RABBITMQ_DEFAULT_PASS-rabbitmq}@rabbitmq:5672"
+export AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER-rabbitmq}:${RABBITMQ_DEFAULT_PASS-rabbitmq}@localhost:5672/"
 export ANALYZER_BINARYSTORE_TYPE="filesystem"
 # ------------------------------------------------------------------------------
 # 1. Install Python 3.11.11 (Compiled From Source)
