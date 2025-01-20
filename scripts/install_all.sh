@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
-
-# Exit on any command failure
 set -e
-# Fail on pipeline errors
 set -o pipefail
 
 # ------------------------------------------------------------------------------
 # 1. Define Common Environment Variables
 # ------------------------------------------------------------------------------
-# Adjust these to match your environment (e.g., custom host, user, password).
+# Adjust these as needed for your environment (PostgreSQL, RabbitMQ, etc.).
 export POSTGRES_HOST="localhost"
 export POSTGRES_PORT="5432"
 export POSTGRES_USER="rpuser"
@@ -22,32 +19,25 @@ export RABBITMQ_DEFAULT_USER="rabbitmq"
 export RABBITMQ_DEFAULT_PASS="rabbitmq"
 
 # ------------------------------------------------------------------------------
-# 2. Download the 'scripts' Folder from GitHub
+# 2. Clone the Repository from GitHub (Branch: EPMRPP-66074)
 # ------------------------------------------------------------------------------
-BRANCH_NAME="EPMRPP-66074"
-SCRIPTS_URL="https://github.com/reportportal/linux-installation/archive/refs/heads/${BRANCH_NAME}.zip"
-ZIP_FILE="linux-installation-${BRANCH_NAME}.zip"
+REPO_URL="https://github.com/reportportal/linux-installation.git"
+BRANCH_NAME="EPMRPP-66074/update-linux-guide"
+LOCAL_DIR="linux-installation"
 
-echo "Downloading scripts from: ${SCRIPTS_URL}"
-curl -L "${SCRIPTS_URL}" -o "${ZIP_FILE}"
-
-echo "Unzipping ${ZIP_FILE}..."
-unzip -q "${ZIP_FILE}"
-SCRIPTS_DIR="linux-installation-${BRANCH_NAME}/update-linux-guide/scripts"
-
-echo "Scripts directory: ${SCRIPTS_DIR}"
-if [[ ! -d "${SCRIPTS_DIR}" ]]; then
-  echo "Error: Cannot find directory '${SCRIPTS_DIR}' after unzipping."
-  exit 1
-fi
-
-# Make the scripts executable
-chmod +x "${SCRIPTS_DIR}"/*.sh
+echo "Cloning repository from ${REPO_URL} (branch: ${BRANCH_NAME})..."
+git clone --branch "${BRANCH_NAME}" --depth 1 "${REPO_URL}" "${LOCAL_DIR}"
 
 # ------------------------------------------------------------------------------
 # 3. Execute Scripts in Required Order
 # ------------------------------------------------------------------------------
-cd "${SCRIPTS_DIR}"
+cd "${LOCAL_DIR}/scripts" || {
+  echo "Error: Cannot find 'scripts' folder in cloned repo."
+  exit 1
+}
+
+# Make sure each script is executable
+chmod +x ./*.sh
 
 echo "1) install_dependencies.sh"
 ./install_dependencies.sh
@@ -73,12 +63,9 @@ echo "7) service_analyzer.sh"
 echo "8) service_ui.sh"
 ./service_ui.sh
 
-cd -
-# Cleanup optional if you like
-# rm -rf "linux-installation-${BRANCH_NAME}" "${ZIP_FILE}"
-
 # ------------------------------------------------------------------------------
 # Final Message
 # ------------------------------------------------------------------------------
+cd -
 echo "All scripts have been executed successfully in the specified order."
 echo "Installation and setup complete."

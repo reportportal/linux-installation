@@ -3,13 +3,12 @@ set -e
 set -o pipefail
 
 # ------------------------------------------------------------------------------
-# 1. Update and Install Dependencies Needed to Compile Python 3.7.4
+# 1. Install Python 3.11.4 (Compiled From Source)
 # ------------------------------------------------------------------------------
-echo "==== [1/7] Updating system and installing dependencies for Python 3.7.4 ===="
+PY_VERSION="3.11.11"
+PY_TARBALL="Python-${PY_VERSION}.tar.xz"
 
-# Remove the Erlang Solutions list if it exists (may be irrelevant to Python, but consistent with your original script)
-sudo rm -f /etc/apt/sources.list.d/erlang-solutions.list || true
-
+echo "=== Installing dependencies needed to compile Python ${PY_VERSION} ==="
 sudo apt-get update -y
 sudo apt-get install -y \
   build-essential \
@@ -27,62 +26,87 @@ sudo apt-get install -y \
   libffi-dev \
   liblzma-dev
 
-# ------------------------------------------------------------------------------
-# 2. Download and Compile Python 3.7.4 (Avoiding System Python Overwrite)
-# ------------------------------------------------------------------------------
-PY_VERSION="3.7.4"
-PY_TARBALL="Python-${PY_VERSION}.tar.xz"
-
-echo "==== [2/7] Downloading and compiling Python $PY_VERSION ===="
-
-# Download tarball if it does not exist
-if [ ! -f "${PY_TARBALL}" ]; then
+echo "=== Downloading and compiling Python ${PY_VERSION} ==="
+if [[ ! -f "${PY_TARBALL}" ]]; then
   wget "https://www.python.org/ftp/python/${PY_VERSION}/${PY_TARBALL}"
 fi
 
-# Extract, configure, compile
 tar -xf "${PY_TARBALL}"
 cd "Python-${PY_VERSION}"
-./configure --enable-optimizations
+./configure
 make -j"$(nproc)"
 sudo make altinstall
 cd ..
 
 # ------------------------------------------------------------------------------
-# 3. Create and Configure a Virtual Environment for /analyzer
+# 2. Clone the service-auto-analyzer Repository
 # ------------------------------------------------------------------------------
-echo "==== [3/7] Creating Python 3.7 virtual environment at /analyzer ===="
-python3.7 -m venv /analyzer
+REPO_URL="https://github.com/reportportal/service-auto-analyzer.git"
+REPO_DIR="service-auto-analyzer"
 
-echo "==== [4/7] Installing packages from requirements.txt in /analyzer ===="
+echo "=== Cloning repository from ${REPO_URL} ==="
+if [[ -d "${REPO_DIR}" ]]; then
+  echo "Directory '${REPO_DIR}' already exists. Removing it..."
+  rm -rf "${REPO_DIR}"
+fi
+git clone "${REPO_URL}" "${REPO_DIR}"
+
+cd "${REPO_DIR}"
+
+# ------------------------------------------------------------------------------
+# 3. Create and Configure a Virtual Environment for "Analyzer"
+# ------------------------------------------------------------------------------
+echo "=== Creating Python 3.11 virtual environment at /analyzer ==="
+python3.11 -m venv /analyzer
+
+echo "=== Installing dependencies from requirements.txt in /analyzer ==="
+/analyzer/bin/pip install --upgrade pip
 /analyzer/bin/pip install --no-cache-dir -r requirements.txt
 
-echo "==== [5/7] Downloading NLTK stopwords in /analyzer ===="
-/analyzer/bin/python3 -m nltk.downloader -d /usr/share/nltk_data stopwords
+echo "=== Downloading NLTK stopwords in /analyzer ==="
+/analyzer/bin/python3.11 -m nltk.downloader -d /usr/share/nltk_data stopwords
 
-echo "==== [6/7] Starting uWSGI for /analyzer in the background ===="
-# Adjust the path to res/analyzer.ini if different
-nohup /analyzer/bin/uwsgi --ini res/analyzer.ini > analyzer.log 2>&1 &
+echo "=== (Optional) Activate the virtual environment ==="
+echo "source /analyzer/bin/activate  # if you want an interactive session"
+
+echo "=== Starting uWSGI for analyzer (in the foreground or background) ==="
+/analyzer/bin/uwsgi --ini res/analyzer.ini &
+ANALYZER_PID=$!
+
+echo "Analyzer is running with PID $ANALYZER_PID."
 
 # ------------------------------------------------------------------------------
-# 4. Create and Configure a Virtual Environment for /analyzer-train
+# 4. Create and Configure a Virtual Environment for "Analyzer-Train"
 # ------------------------------------------------------------------------------
-echo "==== [7/7] Creating Python 3.7 virtual environment at /analyzer-train ===="
-python3.7 -m venv /analyzer-train
+echo "=== Creating Python 3.11 virtual environment at /analyzer-train ==="
+python3.11 -m venv /analyzer-train
 
-echo "Installing packages from requirements.txt in /analyzer-train"
+echo "=== Installing dependencies from requirements.txt in /analyzer-train ==="
 /analyzer-train/bin/pip install --no-cache-dir -r requirements.txt
 
-echo "Downloading NLTK stopwords in /analyzer-train"
-/analyzer-train/bin/python3 -m nltk.downloader -d /usr/share/nltk_data stopwords
+echo "=== Downloading NLTK stopwords in /analyzer-train ==="
+/analyzer-train/bin/python3.11 -m nltk.downloader -d /usr/share/nltk_data stopwords
 
-echo "Starting uWSGI for /analyzer-train in the background"
-nohup /analyzer-train/bin/uwsgi --ini res/analyzer-train.ini > analyzer-train.log 2>&1 &
+echo "=== (Optional) Activate the virtual environment ==="
+echo "source /analyzer-train/bin/activate  # if you want an interactive session"
+
+echo "=== Starting uWSGI for analyzer-train (in the foreground or background) ==="
+/analyzer-train/bin/uwsgi --ini res/analyzer-train.ini &
+ANALYZER_TRAIN_PID=$!
+
+echo "Analyzer-train is running with PID $ANALYZER_TRAIN_PID."
 
 # ------------------------------------------------------------------------------
-# Final Information
+# 5. Wrap-Up
 # ------------------------------------------------------------------------------
-echo "-------------------------------------------------------------"
+echo
+echo "============================================================="
 echo "Setup complete!"
-echo "uWSGI for Analyzer and Analyzer-Train is running in the background."
-echo "-------------------------------------------------------------"
+echo " - Analyzer running (PID: $ANALYZER_PID)"
+echo " - Analyzer-train running (PID: $ANALYZER_TRAIN_PID)"
+echo "Logs are printed to the console or log files based on your uWSGI config."
+echo "============================================================="
+echo
+echo "If needed, you can stop each service with 'kill <PID>'."
+echo "Remember you can edit res/analyzer.ini or res/analyzer-train.ini"
+echo "to change worker counts, ports, or other uWSGI settings."
