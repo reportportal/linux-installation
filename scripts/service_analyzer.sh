@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -e
 set -o pipefail
+export ES_HOSTS="http://localhost:9200"
+export AMQP_EXCHANGE_NAME="/"
 
 # ------------------------------------------------------------------------------
-# 1. Install Python 3.11.4 (Compiled From Source)
+# 1. Install Python 3.11.11 (Compiled From Source)
 # ------------------------------------------------------------------------------
 PY_VERSION="3.11.11"
 PY_TARBALL="Python-${PY_VERSION}.tar.xz"
