@@ -1,11 +1,11 @@
 # ReportPortal Linux installation
-[![Join Slack chat!](https://reportportal-slack-auto.herokuapp.com/badge.svg)](https://reportportal-slack-auto.herokuapp.com)
+[![Join Slack chat!](https://img.shields.io/badge/slack-join-brightgreen.svg)](https://slack.epmrpp.reportportal.io/)
 [![stackoverflow](https://img.shields.io/badge/reportportal-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/reportportal)
 [![GitHub contributors](https://img.shields.io/badge/contributors-102-blue.svg)](https://reportportal.io/community)
 [![Docker Pulls](https://img.shields.io/docker/pulls/reportportal/service-api.svg?maxAge=25920)](https://hub.docker.com/u/reportportal/)
 [![License](https://img.shields.io/badge/license-Apache-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Build with Love](https://img.shields.io/badge/build%20with-❤%EF%B8%8F%E2%80%8D-lightgrey.svg)](http://reportportal.io?style=flat)
-
+https://camo.githubusercontent.com/3e3efe7f8dfc0b1…c61636b2d6a6f696e2d627269676874677265656e2e737667
 ## Description
 
 [ReportPortal.io](https://reportportal.io) is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
@@ -27,7 +27,7 @@ In the "scripts" folder, you'll find a collection of scripts designed to set up 
 * [Report Portal Installation](#ReportPortal)
 * [Description](#Descriprion)
 * [Supported OS](#Supported-OS)
-* [Automated Install for Linux] (#Automated-Install-for-linux)
+* [Automated Install for Linux](#Automated-Install-for-linux)
 * [Required Services](#Required-Services)
     * [PostgreSQL](#PostgreSQL)
     * [RabbitMQ](#RabbitMQ)

@@ -54,14 +54,14 @@ echo "4) service_uat.sh"
 echo "5) service_jobs.sh"
 ./service_jobs.sh
 
-echo "6) service_index.sh"
-./service_index.sh
+echo "6) service_ui.sh"
+./service_ui.sh
 
 echo "7) service_analyzer.sh"
 ./service_analyzer.sh
 
-echo "8) service_ui.sh"
-./service_ui.sh
+echo "8) service_index.sh"
+./service_index.sh
 
 # ------------------------------------------------------------------------------
 # Final Message
