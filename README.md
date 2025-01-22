@@ -357,7 +357,6 @@ RP_SAML_SESSION_LIVE=<your_saml_session_live_duration>
 DATASTORE_PATH=<your_datastore_path>
 NODE_VERSION="20"
 PY_VERSION="23.11.11"
-RP_ENCRYPTION_KEY=<your_encryption_key>
 LOGGING_LEVEL=<your_logging_level>
 ```
 
@@ -476,18 +475,28 @@ rm -rf ./migrations/
 
 ### Index
 
-1. Download service
+1.  Clone the Repository
 
 ```bash
 cd /opt/reportportal/ && \
-wget -c -N -O service-index https://github.com/reportportal/service-index/releases/download/$SERVICE_INDEX_VERSION/service-index_linux_amd64
+sudo git clone --depth 1 --branch 5.13.0 https://github.com/reportportal/service-index.git /opt/reportportal/service-index-build
+```
+2. Build the service
+```bash
+cd service-index-build/
+sudo CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app
+```
+3. Install the Binary
+```bash
+sudo mkdir -p /opt/reportportal/service-index
+sudo cp app /opt/reportportal/service-index/
+sudo chmod +x /opt/reportportal/service-index/app
 ```
 
-2. Run service
-
+4. Remove build folder and Run service
 ```bash
-sudo chmod +x service-index && \
-sudo RP_SERVER_PORT=9000 LB_URL=http://localhost:8081 ./service-index 2>&1 &
+sudo rm -rf /opt/reportportal/service-index-build/
+sudo nohup  RP_SERVER_PORT=9000 LB_URL=http://localhost:8081 /opt/reportportal/service-index/app 2>&1 &
 ```
 
 ### API
@@ -536,29 +545,40 @@ RP_DB_HOST=$RP_DB_HOST RP_DB_USER=$RP_POSTGRES_USER RP_DB_PASS=$RP_POSTGRES_PASS
 
 ### UI
 
-1. Create UI work directory
+1. Install dependencies
 
 ```bash
-mkdir -p /opt/reportportal/ui && cd /opt/reportportal/
+sudo apt-get update
+sudo apt-get install -y git curl
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs npm
 ```
 
-2. Download UI service 
+2. Clone repository 
 
 ```bash
-curl -L https://github.com/reportportal/service-ui/releases/download/$UI_VERSION/service-ui_linux_amd64 -o service-ui && \
-mv service-ui ui/ && \
-chmod -R +x ui/* && \
-curl -LO https://github.com/reportportal/service-ui/releases/download/$UI_VERSION/ui.tar.gz && \
-mkdir public && \
-tar -zxvf ui.tar.gz -C public && rm -f ui.tar.gz
+git clone https://github.com/reportportal/service-ui.git service-ui
+cd service-ui
+git checkout $UI_VERSION
 ```
 
-3. Run service
+3. Install Project Dependencies
 
 ```bash
-cd ui/ && RP_STATICS_PATH=../public RP_SERVER_PORT=3000 ./service-ui 2>&1 &
+cd app
+npm cache clean --force
+npm install --legacy-peer-deps --prefer-offline --no-audit --no-fund
 ```
 
+4. Set Up Env Variables
+```bash
+echo "PROXY_PATH='http://localhost:8080/'" > .env
+```
+
+5. Run Project
+```bash
+nohup npm run dev > ui.log 2>&1 &
+```
 Check availability of ReportPortal
 
 ![RabbitMQ](img/reportportal.gif)
