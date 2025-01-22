@@ -1,0 +1,61 @@
+http:
+  routers:
+    api-router:
+      rule: "PathPrefix(`/api`)"
+      entryPoints: ["web"]
+      service: "api-service"
+      middlewares: ["strip-api"]
+
+    ui-router:
+      rule: "PathPrefix(`/ui`)"
+      entryPoints: ["web"]
+      service: "ui-service"
+      middlewares: ["strip-ui"]
+
+    index-router:
+      rule: "PathPrefix(`/`)"
+      entryPoints: ["web"]
+      service: "index-service"
+
+    uat-router:
+      rule: "PathPrefix(`/uat`)"
+      entryPoints: ["web"]
+      service: "uat-service"
+      middlewares: ["strip-uat"]
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:8585"
+
+    ui-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:3000"
+
+    index-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:9000"
+
+    uat-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:9999"
+
+  middlewares:
+    strip-api:
+      stripPrefix:
+        prefixes:
+          - "/api"
+
+    strip-ui:
+      stripPrefix:
+        prefixes:
+          - "/ui"
+
+    strip-uat:
+      stripPrefix:
+        prefixes:
+          - "/uat"
