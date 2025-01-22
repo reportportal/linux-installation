@@ -5,7 +5,6 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/reportportal/service-api.svg?maxAge=25920)](https://hub.docker.com/u/reportportal/)
 [![License](https://img.shields.io/badge/license-Apache-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Build with Love](https://img.shields.io/badge/build%20with-❤%EF%B8%8F%E2%80%8D-lightgrey.svg)](http://reportportal.io?style=flat)
-https://camo.githubusercontent.com/3e3efe7f8dfc0b1…c61636b2d6a6f696e2d627269676874677265656e2e737667
 ## Description
 
 [ReportPortal.io](https://reportportal.io) is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
