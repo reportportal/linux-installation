@@ -22,26 +22,26 @@ export SERVICE_UAT_JAVA_OPTS="\
 -XX:MaxRAMPercentage=90.0 \
 --add-opens=java.base/java.lang=ALL-UNNAMED"
 
-# ------------------------------------------------------------------------------
-# Database Configuration
-# ------------------------------------------------------------------------------
-export RP_DB_HOST="${POSTGRES_HOST-localhost}"       # Database server host
-export RP_DB_PORT="${POSTGRES_PORT-5432}"           # Database server port
-export RP_DB_USER="${POSTGRES_USER-rpuser}"         # Database user
-export RP_DB_PASS="${POSTGRES_PASSWORD-rppass}"     # Database password
-export RP_DB_NAME="${POSTGRES_DB-reportportal}"     # Database name
+# --------------------------------------------------------------------------
+# Database Configuration (ReportPortal)
+# --------------------------------------------------------------------------
+export RP_DB_HOST="${POSTGRES_HOST-localhost}"      # Database server host
+export RP_DB_PORT="${POSTGRES_PORT-5432}"          # Database server port
+export RP_DB_USER="${POSTGRES_USER-rpuser}"        # Database user
+export RP_DB_PASS="${POSTGRES_PASSWORD-rppass}"    # Database password
+export RP_DB_NAME="${POSTGRES_DB-reportportal}"    # Database name
 
-# ------------------------------------------------------------------------------
-# RabbitMQ (AMQP) Configuration
-# ------------------------------------------------------------------------------
-export RP_AMQP_HOST="${RABBITMQ_HOST-rabbitmq}"             # RabbitMQ server host
-export RP_AMQP_PORT="${RABBITMQ_PORT-5672}"                 # RabbitMQ main port
-export RP_AMQP_APIPORT="${RABBITMQ_API_PORT-15672}"         # RabbitMQ API port
-export RP_AMQP_USER="${RABBITMQ_DEFAULT_USER-rabbitmq}"     # RabbitMQ user
-export RP_AMQP_PASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"     # RabbitMQ password
-export RP_AMQP_APIUSER="${RABBITMQ_DEFAULT_USER-rabbitmq}"  # RabbitMQ API user
-export RP_AMQP_APIPASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"  # RabbitMQ API password
-export RP_AMQP_ANALYZER_VHOST="/"                           # RabbitMQ Analyzer virtual host
+# --------------------------------------------------------------------------
+# RabbitMQ (AMQP) Configuration (ReportPortal)
+# --------------------------------------------------------------------------
+export RP_AMQP_HOST="${RABBITMQ_HOST-localhost}"                   # RabbitMQ server host
+export RP_AMQP_PORT="${RABBITMQ_PORT-5672}"                       # RabbitMQ main port
+export RP_AMQP_APIPORT="${RABBITMQ_API_PORT-15672}"               # RabbitMQ API port
+export RP_AMQP_USER="${RABBITMQ_DEFAULT_USER-rabbitmq}"           # RabbitMQ user
+export RP_AMQP_PASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"           # RabbitMQ password
+export RP_AMQP_APIUSER="${RABBITMQ_DEFAULT_USER-rabbitmq}"        # RabbitMQ API user
+export RP_AMQP_APIPASS="${RABBITMQ_DEFAULT_PASS-rabbitmq}"        # RabbitMQ API password
+export RP_AMQP_ANALYZER_VHOST="/"                                 # Virtual host for RabbitMQ Analyzer
 
 # ------------------------------------------------------------------------------
 # Datastore Configuration

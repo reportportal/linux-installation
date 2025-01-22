@@ -18,7 +18,7 @@ export ES_HOSTS="http://localhost:9200"
 export AMQP_EXCHANGE_NAME="analyzer"
 export LOGGING_LEVEL=info
 export AMQP_VIRTUAL_HOST="/"
-export AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER-rabbitmq}:${RABBITMQ_DEFAULT_PASS-rabbitmq}@localhost:5672/"
+export AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${RP_AMQP_HOST}:${RP_AMQP_PORT}${RP_AMQP_ANALYZER_VHOST}"
 export ANALYZER_BINARYSTORE_TYPE="filesystem"
 # ------------------------------------------------------------------------------
 # 1. Install Python 3.11.11 (Compiled From Source)

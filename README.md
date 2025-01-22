@@ -201,8 +201,8 @@ tar -xvf traefik_v2.11.16_linux_amd64.tar.gz
 
 3. Download ReportPortal Traefik configuration file
 ```bash
-wget -O /etc/traefik/traefik.yml https://raw.githubusercontent.com/reportportal/linux-installation/EPMRPP-66074/update-linux-guide/data/traefik.yml
-wget -O /etc/traefik/dynamic_conf.yml https://raw.githubusercontent.com/reportportal/linux-installation/master/data/dynamic_conf.yml
+wget -O /etc/traefik/traefik.yml https://raw.githubusercontent.com/reportportal/linux-installation/main/data/traefik.yml
+wget -O /etc/traefik/dynamic_conf.yml https://raw.githubusercontent.com/reportportal/linux-installation/main/data/dynamic_conf.yml
 ```
 4.  Create Service for traefik
 ```	

@@ -6,20 +6,14 @@ set -o pipefail
 
 # --------------------------------------------------------------------------
 # General Variables
-# --------------------------------------------------------------------------
-POSTGRES_USER="rpuser"
-POSTGRES_PASSWORD="rppass"
-POSTGRES_DB="reportportal"
-RABBITMQ_USER="rabbitmq"
-RABBITMQ_PASSWORD="rabbitmq"
 OPENSEARCH_VERSION="2.18.0"
 TRAEFIK_VERSION="v2.11.15"
-DATASTORE_TYPE="filesystem"
+DATASTORE_TYPE="filesystem" #Replace with your datastore type
 
 # --------------------------------------------------------------------------
 # Database Configuration (ReportPortal)
 # --------------------------------------------------------------------------
-export RP_DB_HOST="${POSTGRES_HOST-postgres}"      # Database server host
+export RP_DB_HOST="${POSTGRES_HOST-localhost}"      # Database server host
 export RP_DB_PORT="${POSTGRES_PORT-5432}"          # Database server port
 export RP_DB_USER="${POSTGRES_USER-rpuser}"        # Database user
 export RP_DB_PASS="${POSTGRES_PASSWORD-rppass}"    # Database password
@@ -28,7 +22,7 @@ export RP_DB_NAME="${POSTGRES_DB-reportportal}"    # Database name
 # --------------------------------------------------------------------------
 # RabbitMQ (AMQP) Configuration (ReportPortal)
 # --------------------------------------------------------------------------
-export RP_AMQP_HOST="${RABBITMQ_HOST-rabbitmq}"                   # RabbitMQ server host
+export RP_AMQP_HOST="${RABBITMQ_HOST-localhost}"                   # RabbitMQ server host
 export RP_AMQP_PORT="${RABBITMQ_PORT-5672}"                       # RabbitMQ main port
 export RP_AMQP_APIPORT="${RABBITMQ_API_PORT-15672}"               # RabbitMQ API port
 export RP_AMQP_USER="${RABBITMQ_DEFAULT_USER-rabbitmq}"           # RabbitMQ user
@@ -135,7 +129,7 @@ sudo systemctl enable rabbitmq-server
 sudo systemctl start rabbitmq-server
 
 echo "Configuring RabbitMQ..."
-sudo rabbitmqctl add_user admin Aa123456!.
+sudo rabbitmqctl add_user admin <your_strong_password>
 sudo rabbitmqctl set_user_tags admin administrator
 sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 
@@ -165,7 +159,7 @@ echo "deb [signed-by=/usr/share/keyrings/opensearch-keyring.gpg] https://artifac
 sudo apt-get update
 export OPENSEARCH_JAVA_OPTS="-Xms512m -Xmx512m"
 export DISABLE_INSTALL_DEMO_CONFIG="true"
-sudo OPENSEARCH_INITIAL_ADMIN_PASSWORD=Orejitas1*. apt-get install -y opensearch
+sudo OPENSEARCH_INITIAL_ADMIN_PASSWORD=<your_strong_password> apt-get install -y opensearch
 
 # Disable SSL for HTTP by modifying the configuration
 sudo sed -i 's/plugins.security.ssl.http.enabled: true/plugins.security.ssl.http.enabled: false/' /etc/opensearch/opensearch.yml
@@ -188,10 +182,10 @@ sudo mkdir -p /etc/traefik
 # --- Download Traefik config files from GitHub ---
 echo "Downloading Traefik configuration files from GitHub..."
 wget -O /etc/traefik/traefik.yml \
-  https://raw.githubusercontent.com/reportportal/linux-installation/EPMRPP-66074/update-linux-guide/data/traefik.yml
+  https://raw.githubusercontent.com/reportportal/linux-installation/main/data/traefik.yml
 
 wget -O /etc/traefik/dynamic_conf.yml \
-  https://raw.githubusercontent.com/reportportal/linux-installation/EPMRPP-66074/update-linux-guide/data/dynamic_conf.yml
+  https://raw.githubusercontent.com/reportportal/linux-installation/main/data/dynamic_conf.yml
 
 # Create Traefik systemd service
 sudo tee /etc/systemd/system/traefik.service <<EOF
