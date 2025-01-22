@@ -20,10 +20,14 @@ ReportPortal is a great addition to the Continuous Integration and Continuous Te
 ![RHEL](https://img.shields.io/badge/RHEL-8.x-red?style=flat-square)
 ![RHEL](https://img.shields.io/badge/RHEL-9.x-red?style=flat-square)
 
+## Automated Install for linux
+In the "scripts" folder, you'll find a collection of scripts designed to set up each service individually. You are welcome to use them as needed. The install_all.sh script can be used to download and install all the services at once. Before running it, ensure you configure the required environment variables. The scripts are designed to automatically compile the software locally during the installation process.
+
 ## Table of contents
-* [Report Portal Installation ](#ReportPortal)
+* [Report Portal Installation](#ReportPortal)
 * [Description](#Descriprion)
 * [Supported OS](#Supported-OS)
+* [Automated Install for Linux] (#Automated-Install-for-linux)
 * [Required Services](#Required-Services)
     * [PostgreSQL](#PostgreSQL)
     * [RabbitMQ](#RabbitMQ)
@@ -306,22 +310,55 @@ POSTGRES_DB="reportportal"
 RP_ENCRYPTION_KEY=<YourStrongEncryptionKey>
 RP_JOBS_BASEURL="http://localhost:8686"    
 
-RP_POSTGRES_USER=<your_rpdbuser>
-RP_POSTGRES_PASSWORD=<your_rpdbuser_password>
-RP_RABBITMQ_USER=<your_rpmquser>
-RP_RABBITMQ_PASSWORD=<your_rpmquser_password>
-
 RP_AMQP_HOST=<your_rabbitmq_host>
-RP_AMQP_PORT=your_rabbit_port>
-RP_AMQP_APIPORT=<your_rabbit_api_port>
-RP_AMQP_USER=<your_rabbit_user>
-RP_AMQP_PASS=<your_rabbit_pass>
-RP_AMQP_APIUSER=<your_rabbit_api_user>
-RP_AMQP_APIPASS=<yoyr_rabbit_api_pass>
+RP_AMQP_PORT=<your_rabbitmq_port>
+RP_AMQP_APIPORT=<your_rabbitmq_api_port>
+RP_AMQP_USER=<your_rabbitmq_user>
+RP_AMQP_PASS=<your_rabbitmq_password>
+RP_AMQP_APIUSER=<your_rabbitmq_api_user>
+RP_AMQP_APIPASS=<your_rabbitmq_api_password>
 RP_AMQP_ANALYZER_VHOST=<your_analyzer_virtual_host>
-AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER-rabbitmq}:${RABBITMQ_DEFAULT_PASS-rabbitmq}@${RP_AMQP_HOST}:${RP_AMQP_PORT}${RP_AMQP_ANALYZER_VHOST}"
+RABBITMQ_HOST=<your_rabbitmq_host>
+RABBITMQ_PORT=<your_rabbitmq_port>
+RABBITMQ_API_PORT=<your_rabbitmq_api_port>
+RABBITMQ_DEFAULT_USER=<your_rabbitmq_default_user>
+RABBITMQ_DEFAULT_PASS=<your_rabbitmq_default_password>
+AMQP_EXCHANGE_NAME=<your_amqp_exchange_name>
+AMQP_VIRTUAL_HOST=<your_amqp_virtual_host>
+AMQP_URL="amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${RP_AMQP_HOST}:${RP_AMQP_PORT}${RP_AMQP_ANALYZER_VHOST}"
 
 DATASTORE_TYPE="filesystem" 
+
+ANALYZER_BINARYSTORE_TYPE=<your_analyzer_binarystore_type>
+INSTANCE_TASK_TYPE=<your_instance_task_type>
+UWSGI_WORKERS=<your_uwsgi_workers_count>
+
+COM_TA_REPORTPORTAL_JOB_INTERRUPT_BROKEN_LAUNCHES_CRON="PT1H"
+COM_TA_REPORTPORTAL_JOB_LOAD_PLUGINS_CRON="PT10S"
+COM_TA_REPORTPORTAL_JOB_CLEAN_OUTDATED_PLUGINS_CRON="PT10S"
+RP_ENVIRONMENT_VARIABLE_CLEAN_ATTACHMENT_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_LOG_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_LAUNCH_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_STORAGE_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_STORAGE_PROJECT_CRON="0 */5 * * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_EXPIREDUSER_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_NOTIFICATION_EXPIREDUSER_CRON="0 0 */24 * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_EVENTS_CRON="0 30 05 * * *"
+RP_ENVIRONMENT_VARIABLE_CLEAN_EVENTS_RETENTIONPERIOD="365"
+RP_ENVIRONMENT_VARIABLE_CLEAN_STORAGE_CHUNKSIZE="20000"
+RP_ENVIRONMENT_VARIABLE_PATTERN_ANALYSIS_BATCH_SIZE="100"
+RP_ENVIRONMENT_VARIABLE_PATTERN_ANALYSIS_PREFETCH_COUNT="1"
+RP_ENVIRONMENT_VARIABLE_PATTERN_ANALYSIS_CONSUMERS_COUNT="1"
+
+RP_SERVER_PORT=<your_server_port>
+RP_JOBS_BASEURL=<your_jobs_base_url>
+RP_SESSION_LIVE=<your_session_live_duration>
+RP_SAML_SESSION_LIVE=<your_saml_session_live_duration>
+DATASTORE_PATH=<your_datastore_path>
+NODE_VERSION="20"
+PY_VERSION="23.11.11"
+RP_ENCRYPTION_KEY=<your_encryption_key>
+LOGGING_LEVEL=<your_logging_level>
 ```
 
 Create a working directory 
